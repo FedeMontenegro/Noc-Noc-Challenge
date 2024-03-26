@@ -29,6 +29,10 @@ Route::prefix("tasks")->group(function() {
 Route::prefix("comments")->group(function() {
     include __DIR__."/commentRouter.php";
   });
+ 
+Route::prefix("archives")->group(function() {
+    include __DIR__."/archivesRouter.php";
+  });
 
 
 //Route to generate csrf tokens
