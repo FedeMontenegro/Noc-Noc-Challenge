@@ -18,7 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::prefix("users")->group(function() {
     include __DIR__."/usersRouter.php";
   });
@@ -26,6 +25,11 @@ Route::prefix("users")->group(function() {
 Route::prefix("tasks")->group(function() {
     include __DIR__."/tasksRouter.php";
   });
+ 
+Route::prefix("comments")->group(function() {
+    include __DIR__."/commentRouter.php";
+  });
+
 
 //Route to generate csrf tokens
 Route::get('/csrf-token', function() {
