@@ -23,13 +23,11 @@ Route::prefix("users")->group(function() {
     include __DIR__."/usersRouter.php";
   });
 
-
-
-//Route::post("/users/create", [UserController::class, "create"])->name("users.create");
-    
-//Route::post("/tareas", [TodosController::class, "store"])->name("todos");
+Route::prefix("tasks")->group(function() {
+    include __DIR__."/tasksRouter.php";
+  });
 
 //Route to generate csrf tokens
-    Route::get('/csrf-token', function() {
-        return response()->json(['token' => csrf_token()]);
-    })->name("token");
+Route::get('/csrf-token', function() {
+    return response()->json(['token' => csrf_token()]);
+})->name("token");
