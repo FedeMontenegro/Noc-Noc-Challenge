@@ -1,13 +1,15 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
 const email = ref("")
 const password = ref("")
 const showPassword = ref(false)
+const router = useRouter()
 
-const togglePassword = () => {
-    showPassword = ref(!showPassword)
+const handleSubmit = () => {
+    console.log("Handle Submit");
+    router.push("/tasks")
 }
 
 </script>
@@ -22,7 +24,8 @@ const togglePassword = () => {
 
             <div class="login-input-container">
                 <label for="password">Password</label>
-                <input v-model="password" :type="showPassword ? 'text' : 'password'" name="password" id="password" class="login-input">
+                <input v-model="password" :type="showPassword ? 'text' : 'password'" name="password" id="password"
+                    class="login-input">
                 <div class="login-form-show-password-container">
                     <input v-model="showPassword" type="checkbox" name="show-password" id="show-password">
                     <label class="login-form-lbl-show-password" for="show-password">Mostrar contraseña</label>
