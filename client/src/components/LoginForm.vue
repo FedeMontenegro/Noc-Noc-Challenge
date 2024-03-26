@@ -1,0 +1,83 @@
+<script setup>
+import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
+
+const email = ref("")
+const password = ref("")
+const showPassword = ref(false)
+
+const togglePassword = () => {
+    showPassword = ref(!showPassword)
+}
+
+</script>
+
+<template>
+    <form action="" @submit.prevent="handleSubmit">
+        <section class="login-form-section">
+            <div class="login-input-container">
+                <label for="email">Email</label>
+                <input v-model="email" type="email" name="email" id="email" class="login-input">
+            </div>
+
+            <div class="login-input-container">
+                <label for="password">Password</label>
+                <input v-model="password" :type="showPassword ? 'text' : 'password'" name="password" id="password" class="login-input">
+                <div class="login-form-show-password-container">
+                    <input v-model="showPassword" type="checkbox" name="show-password" id="show-password">
+                    <label class="login-form-lbl-show-password" for="show-password">Mostrar contraseña</label>
+                </div>
+            </div>
+
+            <nav class="login-form-nav">
+                <RouterLink to="reset-password">Olvidé mi contraseña</RouterLink>
+            </nav>
+
+            <button type="submit" class="login-form-btn">
+                Iniciar Sesión
+            </button>
+        </section>
+    </form>
+</template>
+
+<style scoped>
+.login-form-section {
+    padding: 20px;
+}
+
+.login-input-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.login-input {
+    padding: 10px;
+    border: solid 1px;
+}
+
+.login-form-btn {
+    border: 10px;
+    background-color: var(--vt-c-indigo);
+    padding: 10px;
+    color: var(--vt-c-white-soft)
+}
+
+.login-form-lbl-show-password {
+    margin-left: 5px;
+}
+
+.login-form-show-password-container {
+    padding: 5px;
+}
+
+.login-form-nav {
+    padding: 20px 0;
+}
+
+@media (min-width: 800px) {
+    .login-form-section {
+        padding: 50px;
+    }
+}
+</style>
