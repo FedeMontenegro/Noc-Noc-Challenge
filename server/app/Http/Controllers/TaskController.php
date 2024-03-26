@@ -98,7 +98,7 @@ class TaskController extends Controller {
      */
     public function setTask (Request $request, $id) {
         
-        $task = task::find($id);
+        $task = Task::find($id);
 
         $request -> title ? $task -> title = $request -> title : "";
         $request -> description ? $task -> description = $request -> description : "";
