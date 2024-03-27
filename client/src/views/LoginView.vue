@@ -14,7 +14,6 @@ import Welcome from '@/components/Welcome.vue';
 
 @media (min-width: 800px) {
     .home-container {
-        border: solid 2px red;
         align-items: center;
         display: grid;
         grid-template-columns: 1fr 1fr;

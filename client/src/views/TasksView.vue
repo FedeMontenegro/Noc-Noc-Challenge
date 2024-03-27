@@ -1,5 +1,6 @@
 <script setup>
-import TaskCard from "../components/TaskCard.vue"
+import TaskCard from "../components/TaskCard.vue";
+import { RouterLink, useRouter } from 'vue-router';
 
 const elements = [1, 2, 3, 4, 5]
 </script>
@@ -7,7 +8,9 @@ const elements = [1, 2, 3, 4, 5]
 <template>
     <header class="tasks-view-header">
         <h1 class="tasks-view-title">Tasks</h1>
-        <button class="tasks-view-btn" type="button">Create Task</button>
+        <RouterLink to="/create-task">
+            <button class="tasks-view-btn" type="button">Create Task</button>
+        </RouterLink>
     </header>
     
     <section class="task-view-section">
