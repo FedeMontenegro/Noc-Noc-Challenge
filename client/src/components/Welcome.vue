@@ -7,7 +7,6 @@
 <style scoped>
     .welcome-header {
         align-items: center;
-        border: solid 2px blue;
         display: none;
         justify-content: center;
         width: 100%;
