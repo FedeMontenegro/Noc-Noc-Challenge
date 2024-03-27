@@ -1,29 +1,64 @@
 <script setup>
-    import { ref } from 'vue';
+import { ref } from 'vue';
+import { Field, Form, ErrorMessage } from "vee-validate"
+import { valuesSchema } from "../services/form.validation.js";
 
-    const elements = ["Employee", "Superadmin"]
+const { email, role } = valuesSchema;
+
+const emailText = ref("");
+const roleText = ref("");
+
+const schema = { email, role }
+const elements = ["Employee", "Superadmin"]
+
+const handleSubmit = () => {
+    console.log("Handle Submit", emailText.value, roleText.value);
+}
 </script>
 
 <template>
-    <form action="" @submit.prevent="handleSubmit">
+    <Form action="" @submit="handleSubmit" :validation-schema="schema">
+
         <section class="create-user-form-section">
+
             <div class="create-user-form-input-container">
-                <label  for="email">Email</label>
-                <input class="create-user-form-input" type="email" name="email" id="email">
+                <label for="email">Email</label>
+                <Field 
+                    class="create-user-form-input" 
+                    type="email" 
+                    name="email" 
+                    id="email"
+                    v-model="emailText"
+                />
+                <ErrorMessage class="error" name="email" />
             </div>
             
             <div class="create-user-form-select-container">
                 <label for="role">Role</label>
-                <select class="create-user-form-select" name="role" id="role">
-                    <option value="" v-for="(element, key) in elements" :key="key" :item="element">
+                <Field 
+                    class="create-user-form-select" 
+                    name="role" 
+                    id="role" 
+                    v-model="roleText"
+                    as="select"
+                >
+                    <option value="">Choice an option</option>
+                    <option 
+                        :value="element" 
+                        v-for="(element, key) in elements" 
+                        :key="key"
+                    >
                         {{ element }}
                     </option>
-                </select>
+                </Field>
+                <ErrorMessage class="error" name="role" />
             </div>
 
-            <button class="create-user-btn" type="button">Create user</button>
+            <button class="create-user-btn" type="submit">
+                Create user
+            </button>
         </section>
-    </form>
+    </Form>
 </template>
 
 <style scoped>
@@ -72,5 +107,4 @@
     padding: 10px;
     border: solid 1px;
 }
-
 </style>

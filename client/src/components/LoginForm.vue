@@ -1,11 +1,16 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { Field, Form, ErrorMessage } from "vee-validate"
+import { valuesSchema } from "../services/form.validation.js";
 
-const email = ref("")
-const password = ref("")
-const showPassword = ref(false)
 const router = useRouter()
+const { email, password } = valuesSchema;
+
+const emailText = ref("")
+const passwordText = ref("")
+const showPassword = ref(false)
+const schema = { email, password };
 
 const handleSubmit = () => {
     console.log("Handle Submit");
@@ -15,18 +20,20 @@ const handleSubmit = () => {
 </script>
 
 <template>
-    <form action="" @submit.prevent="handleSubmit">
+    <Form action="" @submit.prevent="handleSubmit" :validation-schema="schema">
         <section class="login-form-section">
             <div class="login-input-container">
                 <label for="email">Email</label>
-                <input v-model="email" type="email" name="email" id="email" class="login-input">
+                <Field v-model="emailText" type="email" name="email" id="email" class="login-input" />
+                <ErrorMessage name="email" class="error" />
             </div>
-
+            
             <div class="login-input-container">
                 <label for="password">Password</label>
-                <input v-model="password" :type="showPassword ? 'text' : 'password'" name="password" id="password"
-                    class="login-input">
-                <div class="login-form-show-password-container">
+                <Field v-model="passwordText" :type="showPassword ? 'text' : 'password'" name="password" id="password"
+                    class="login-input" />
+                    <ErrorMessage name="password" class="error" />
+                    <div class="login-form-show-password-container">
                     <input v-model="showPassword" type="checkbox" name="show-password" id="show-password">
                     <label class="login-form-lbl-show-password" for="show-password">Mostrar contraseña</label>
                 </div>
@@ -40,7 +47,7 @@ const handleSubmit = () => {
                 Iniciar Sesión
             </button>
         </section>
-    </form>
+    </Form>
 </template>
 
 <style scoped>
