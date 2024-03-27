@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 const commentText = ref("");
-const files = [];
+let files = [];
 
 const handleFileChange = (event) => {
     files = Array.from(event.target.files);

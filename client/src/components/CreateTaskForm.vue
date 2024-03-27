@@ -1,5 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { Field, Form, ErrorMessage } from "vee-validate";
+import { valuesSchema } from "../services/form.validation.js";
+
+const { title, description, assignedTo, status } = valuesSchema;
 
 const elements = ["John Doe", "Vinicius", "Cristiano", "Lionel", "Angelito"]
 
@@ -8,53 +12,72 @@ const descriptionText = ref("");
 const assignedToSelected = ref("")
 const statusText = ref("")
 
+const schema = { title, description, assignedTo, status };
+
 const handleSubmit = () => {
     console.log(
-        "Handle Submit: ", 
-        titleText.value, 
+        "Handle Submit: ",
+        titleText.value,
         descriptionText.value,
         assignedToSelected.value,
         statusText.value
-        );
+    );
 }
 </script>
 
 <template>
-    <form action="" @submit.prevent="handleSubmit">
+    <Form action="" @submit="handleSubmit" :validation-schema="schema">
+
         <section class="create-task-form-section">
             <div class="create-task-form-input-container">
+
                 <label for="title">Title</label>
-                <input class="create-task-form-input" type="text" name="title" id="title" v-model="titleText">
+                <Field class="create-task-form-input" type="text" name="title" id="title" v-model="titleText" />
+                <ErrorMessage name="title" class="error" />
             </div>
+
             <div class="create-task-form-input-container">
+
                 <label for="description">Description</label>
-                <textarea class="create-task-form-input create-task-form-input-textarea" type="text" name="description" id="description" v-model="descriptionText">
-                </textarea>
+                <Field class="create-task-form-input create-task-form-input-textarea" name="description"
+                    id="description" v-model="descriptionText" as="textarea" />
+                <ErrorMessage name="description" class="error" />
+
             </div>
 
-            <div class="create-task-form-select-container" >
+            <div class="create-task-form-select-container">
+
                 <div class="create-task-form-input-container">
-                    <label for="assigned-to">Assigned To</label>
-                    <select class="create-task-form-select" name="assigned-to" id="assigned-to" v-model="assignedToSelected">
+
+                    <label for="assignedTo">Assigned To</label>
+                    <Field class="create-task-form-select" name="assignedTo" id="assignedTo"
+                        v-model="assignedToSelected" as="select">
+                        <option value="">Choice an option</option>
                         <option :value="element" v-for="(element, key) in elements" :key="key" :item="element">
                             {{ element }}
                         </option>
-                    </select>
+                    </Field>
+                    <ErrorMessage name="assignedTo" class="error" />
                 </div>
 
                 <div class="create-task-form-input-container">
+
                     <label for="status">Status</label>
-                    <select class="create-task-form-select" name="status" id="status" v-model="statusText">
+                    <Field class="create-task-form-select" name="status" id="status" v-model="statusText" as="select">
+                        <option value="">Choice an option</option>
                         <option :value="element" v-for="(element, key) in elements" :key="key" :item="element">
                             {{ element }}
                         </option>
-                    </select>
+                    </Field>
+                    <ErrorMessage name="status" class="error"/>
                 </div>
             </div>
 
-            <button class="create-task-btn" type="submit">Create Task</button>
+            <button class="create-task-btn" type="submit">
+                Create Task
+            </button>
         </section>
-    </form>
+    </Form>
 </template>
 
 <style scoped>
@@ -100,5 +123,4 @@ const handleSubmit = () => {
     padding: 10px;
     border: solid 1px;
 }
-
 </style>
