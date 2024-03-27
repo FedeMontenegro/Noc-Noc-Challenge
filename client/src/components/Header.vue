@@ -8,16 +8,16 @@ import { RouterLink, useRouter } from 'vue-router';
         <nav>
             <ul class="header-options">
                 <RouterLink to="/login"> 
-                    <li>Login</li>
+                    <li class="header-options-item">Login</li>
                 </RouterLink>
                 <RouterLink to="/create-user"> 
-                    <li>Create User</li>
+                    <li class="header-options-item">Create User</li>
                 </RouterLink>
                 <RouterLink to="/create-task"> 
-                    <li>Create Task</li>
+                    <li class="header-options-item">Create Task</li>
                 </RouterLink>
                 <RouterLink to="/tasks"> 
-                    <li>Tasks</li>
+                    <li class="header-options-item">Tasks</li>
                 </RouterLink>
             </ul>
         </nav>
@@ -34,5 +34,9 @@ import { RouterLink, useRouter } from 'vue-router';
     align-items: center;
     display: flex;
     justify-content: space-evenly;
+}
+
+.header-options-item {
+    color: var(--vt-c-black-soft);
 }
 </style>
