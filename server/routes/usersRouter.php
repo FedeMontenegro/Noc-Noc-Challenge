@@ -8,3 +8,5 @@ Route::get("", [UserController::class, "getUsers"])->name("users.getUsers");
 Route::get("/{id}", [UserController::class, "getUser"])->name("users.getUser");
 Route::patch("/{id}", [UserController::class, "setUser"])->name("users.setUser");
 Route::delete("/{id}", [UserController::class, "destroyUser"])->name("users.destroyUser");
+Route::post("login", [UserController::class, "login"])->name("users.login");
+Route::post("logout", [UserController::class, "logout"])->name("users.logout");

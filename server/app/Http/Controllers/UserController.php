@@ -1,22 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+//namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Auth;
+
 class UserController extends Controller {
-
-    /**
-     * create -> Crea un nuevo usuario.
-     * getUsers -> Obtiene todos los usuarios registrados.
-     * getUser -> Obtiene el detalle de un usuario.
-     * setUser -> Actualiza la información de un usuario.
-     * destroy -> Elimina un registro de usuario.
-     */
-
 
     /**
      * Create new user from database.
@@ -124,7 +118,7 @@ class UserController extends Controller {
      * @author: Fede Montenegro
      */
     public function destroyUser ($id) {
-
+        
         $user = User::find($id);
 
         if(!$user) {
@@ -141,6 +135,57 @@ class UserController extends Controller {
             'msg' => "success",
             "ok" => true,
             "user" => $user
+        ]);
+    }
+    
+    /**
+     * Login user.
+     * @return: 
+     *      - success: msg: success | ok: true | user: user's data | token: jwt token
+     *      - Not Found: Redirect to previous url with an error message.
+     * @author: Fede Montenegro
+     */
+    public function login (Request $request) {
+        
+        //Validate user data
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Try authentication
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+        //token JWT
+        $token = $user->createToken('AuthToken')->plainTextToken;
+
+        return response()->json([
+            "msg" => "success",
+            "ok" => true,
+            'user' => $user,
+            'token' => $token,
+        ]);
+
+        } else {
+            return redirect()->back()->withInput($request->only('email'))->withErrors([
+                'email' => 'Estas credenciales no coinciden con nuestros registros.',
+            ]);
+        }
+    }
+    
+    /**
+     * Logout user.
+     * @return: 
+     *      - success: msg: success | ok: true
+     * @author: Fede Montenegro
+     */
+    public function logout(Request $request) {
+        Auth::logout();
+
+        return response()->json([
+            "msg" => "success",
+            "ok" => true,
         ]);
     }
 }
