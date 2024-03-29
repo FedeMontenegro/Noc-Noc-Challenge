@@ -18,24 +18,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix("users")->group(function() {
-    include __DIR__."/usersRouter.php";
-  });
+Route::prefix("api")->group(function() {
+  Route::prefix("users")->group(function() {
+      include __DIR__."/usersRouter.php";
+    });
+  
+  Route::prefix("tasks")->group(function() {
+      include __DIR__."/tasksRouter.php";
+    });
+   
+  Route::prefix("comments")->group(function() {
+      include __DIR__."/commentRouter.php";
+    });
+   
+  Route::prefix("archives")->group(function() {
+      include __DIR__."/archivesRouter.php";
+    });
 
-Route::prefix("tasks")->group(function() {
-    include __DIR__."/tasksRouter.php";
-  });
- 
-Route::prefix("comments")->group(function() {
-    include __DIR__."/commentRouter.php";
-  });
- 
-Route::prefix("archives")->group(function() {
-    include __DIR__."/archivesRouter.php";
-  });
-
-
-//Route to generate csrf tokens
-Route::get('/csrf-token', function() {
-    return response()->json(['token' => csrf_token()]);
-})->name("token");
+    //Route to generate csrf tokens
+    Route::get('csrf-token', function() {
+        $token = Session::token();
+        return response()->json(['token' => $token]);
+    })->name("token");
+});

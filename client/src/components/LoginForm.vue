@@ -3,37 +3,47 @@ import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { Field, Form, ErrorMessage } from "vee-validate"
 import { valuesSchema } from "../services/form.validation.js";
+import { useUserStore } from '@/stores/user';
 
-const router = useRouter()
+const router = useRouter();
 const { email, password } = valuesSchema;
 
-const emailText = ref("")
-const passwordText = ref("")
-const showPassword = ref(false)
+const emailText = ref("");
+const passwordText = ref("");
+const showPassword = ref(false);
 const schema = { email, password };
 
-const handleSubmit = () => {
-    console.log("Handle Submit");
-    router.push("/tasks")
-}
+const userStore = useUserStore();
+
+const handleSubmit = async () => {
+
+    const response = await userStore.login({ email: emailText.value, password: passwordText.value });
+
+    if(response) {
+        router.push("/tasks");
+    };
+};
 
 </script>
 
 <template>
-    <Form action="" @submit.prevent="handleSubmit" :validation-schema="schema">
+    <Form action="" @submit="handleSubmit" :validation-schema="schema" >
+
         <section class="login-form-section">
+
             <div class="login-input-container">
                 <label for="email">Email</label>
                 <Field v-model="emailText" type="email" name="email" id="email" class="login-input" />
                 <ErrorMessage name="email" class="error" />
             </div>
-            
+
             <div class="login-input-container">
                 <label for="password">Password</label>
                 <Field v-model="passwordText" :type="showPassword ? 'text' : 'password'" name="password" id="password"
                     class="login-input" />
-                    <ErrorMessage name="password" class="error" />
-                    <div class="login-form-show-password-container">
+                <ErrorMessage name="password" class="error" />
+                
+                <div class="login-form-show-password-container">
                     <input v-model="showPassword" type="checkbox" name="show-password" id="show-password">
                     <label class="login-form-lbl-show-password" for="show-password">Mostrar contraseña</label>
                 </div>

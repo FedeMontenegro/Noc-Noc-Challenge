@@ -160,18 +160,20 @@ class UserController extends Controller {
         //token JWT
         $token = $user->createToken('AuthToken')->plainTextToken;
 
-        return response()->json([
+        return json_encode([
             "msg" => "success",
             "ok" => true,
             'user' => $user,
             'token' => $token,
         ]);
-
-        } else {
-            return redirect()->back()->withInput($request->only('email'))->withErrors([
-                'email' => 'Estas credenciales no coinciden con nuestros registros.',
-            ]);
-        }
+    } else {
+        return json_encode([
+            "msg" => "failed",
+            "ok" => false,
+            'user' => $user,
+            "credentials" => $credentials
+        ]);
+    }
     }
     
     /**

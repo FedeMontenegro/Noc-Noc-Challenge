@@ -1,10 +1,11 @@
 import axios from 'axios'
 
 export const instance = axios.create({
-	baseURL: import.meta.env.BASE_URL_API,
+	baseURL: import.meta.env.VITE_VUE_APP_API_URL,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
+		//"X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]').content,
 	},
 })
 
